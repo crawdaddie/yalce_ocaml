@@ -1,0 +1,26 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-I../../src",
+      "-g",
+      "-I",
+      "/Users/adam/.opam/default/lib/ocaml",
+      "-I",
+      "/Users/adam/.opam/default/lib/lwt",
+      "-I",
+      "/Users/adam/.opam/default/lib/re",
+      "-I",
+      "/Users/adam/.opam/default/lib/seq",
+      "-c",
+      "-I",
+      "/opt/homebrew/include",
+      "-o",
+      "yalce_stubs.o",
+      "yalce_stubs.c"
+    ],
+    "directory": "/Users/adam/projects/yalce/yalce_ocaml/_build/default/lib",
+    "file": "/Users/adam/projects/yalce/yalce_ocaml/_build/default/lib/yalce_stubs.c",
+    "output": "/Users/adam/projects/yalce/yalce_ocaml/_build/default/lib/yalce_stubs.o"
+  }
+]

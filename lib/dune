@@ -1,0 +1,9 @@
+(library
+ (name            yalce)
+ (libraries       re lwt)
+ (foreign_stubs
+  (language c)
+  (names yalce_stubs)
+  (include_dirs yalce/src))
+ (c_library_flags (-lyalce_synth))
+)
