@@ -1,9 +1,9 @@
 (library
  (name            yalce)
- (libraries       re lwt)
+ (libraries       re lwt ctypes-foreign)
  (foreign_stubs
   (language c)
-  (names yalce_stubs)
   (include_dirs yalce/include))
  (c_library_flags (-lyalce_synth))
 )
+
