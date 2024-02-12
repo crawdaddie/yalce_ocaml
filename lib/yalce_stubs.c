@@ -1,5 +1,5 @@
-#include "yalce/src/midi.h"
-#include "yalce/src/start_audio.h"
+#include "yalce/include/midi.h"
+#include "yalce/include/start_audio.h"
 #include <caml/mlvalues.h>
 #include <stdlib.h>
 
