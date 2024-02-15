@@ -1,10 +1,10 @@
-let () = Yalce.start_audio();;
+open Yalce
 
-let noise = Yalce.lfnoise 20. 20. 500. ;;
-let _ = Yalce.add noise;;
-let sq_node = Yalce.sq 500. ;;
-let _ = Yalce.add sq_node;;
-let () = Yalce.pipe_output noise sq_node;;
-let () = Yalce.play sq_node;;
+let () = start_audio();;
+
+
+let _ = lfnoise 20. 20. 500.
+  |> ~> (sq 200.)
+  |> play;;
 
 Unix.sleep 5;
