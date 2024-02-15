@@ -1,4 +1,5 @@
 (executable
  (public_name yalce_ocaml)
  (name main)
- (libraries yalce))
+ (libraries yalce unix)
+ )
