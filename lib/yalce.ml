@@ -96,6 +96,7 @@ let sin = foreign "sine" (double @-> (returning Node.node))
 let maketable_sin = foreign "maketable_sin" (void @-> (returning void))
 let tanh_node = foreign "tanh_node" (double @-> Node.node @-> (returning Node.node))  
 let freeverb_node = foreign "freeverb_node" (Node.node @-> (returning Node.node))  
+let mul = foreign "mul_node" (Node.node @-> Node.node @-> (returning Node.node))
 
 
 
