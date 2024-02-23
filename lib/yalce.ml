@@ -100,6 +100,7 @@ let mul = foreign "mul_node" (Node.node @-> Node.node @-> (returning Node.node))
 let mul_scalar = foreign "mul_scalar_node" (double @-> Node.node @-> (returning Node.node))
 let sum_nodes_ = foreign "sum_nodes" (int @-> Node.node @-> Node.node @-> (returning Node.node))
 let sum_nodes_arr = foreign "sum_nodes_arr" (int @-> ptr Node.node @-> (returning Node.node))
+let mix_nodes_arr = foreign "mix_nodes_arr" (int @-> ptr Node.node @-> ptr double @-> (returning Node.node))
 
 
 
@@ -112,7 +113,7 @@ let chain_new = foreign "chain_new" (void @-> (returning Node.node))
 let synth_new () =
   let chain = chain_new () in
   let add = fun x ->
-    add_to_chain chain @@ x
+    add_to_chain chain x
   in
 
   let fin = fun out -> 
@@ -137,6 +138,11 @@ let sumn nodes =
   let len, ptr = node_list_to_carr_ptr nodes in
   sum_nodes_arr len ptr
 
+
+let mix nodes scalars =
+  let len, ptr = node_list_to_carr_ptr nodes in
+  let scalars_ptr = CArray.of_list double scalars |> CArray.start in
+  mix_nodes_arr len ptr scalars_ptr
   
 
 
