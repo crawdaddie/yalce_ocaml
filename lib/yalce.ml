@@ -97,6 +97,9 @@ let maketable_sin = foreign "maketable_sin" (void @-> (returning void))
 let tanh_node = foreign "tanh_node" (double @-> Node.node @-> (returning Node.node))  
 let freeverb_node = foreign "freeverb_node" (Node.node @-> (returning Node.node))  
 let mul = foreign "mul_node" (Node.node @-> Node.node @-> (returning Node.node))
+let mul_scalar = foreign "mul_scalar_node" (double @-> Node.node @-> (returning Node.node))
+let sum_nodes_ = foreign "sum_nodes" (int @-> Node.node @-> Node.node @-> (returning Node.node))
+let sum_nodes_arr = foreign "sum_nodes_arr" (int @-> ptr Node.node @-> (returning Node.node))
 
 
 
@@ -106,10 +109,34 @@ let add_to_chain = foreign "add_to_chain" (Node.node @-> Node.node @-> (returnin
 let add_to_dac = foreign "add_to_dac" (Node.node @-> (returning Node.node))
 let chain_new = foreign "chain_new" (void @-> (returning Node.node))
 
+let synth_new () =
+  let chain = chain_new () in
+  let add = fun x ->
+    add_to_chain chain @@ x
+  in
+
+  let fin = fun out -> 
+    let _ = add_to_dac chain in
+    let _ = ctx_add chain in
+    out
+  in
+  (add, fin)
+  
+
+
 let rand_choice freq choices =
   let len = List.length choices in
   let choices_carr = CArray.of_list double choices in
   rand_choice_ freq len @@ CArray.start choices_carr
+
+let node_list_to_carr_ptr nodes =
+  let len = List.length nodes in
+  len, CArray.start (CArray.of_list Node.node nodes)
+
+let sumn nodes =
+  let len, ptr = node_list_to_carr_ptr nodes in
+  sum_nodes_arr len ptr
+
   
 
 
@@ -117,8 +144,16 @@ let pipe_input a b = pipe_output b a
 let ( => ) = pipe_output
 let ( =< ) = pipe_input
 
+let sum2 x y = sumn [x; y]
+let ( +~ ) = sum2
+let ( *~ ) = mul
+
+
 
 module Synth = struct
+  let chain =
+    chain_new ()
+
   let ch x =
     let chain = chain_new () in 
     (add_to_chain chain x, chain)
@@ -133,6 +168,12 @@ module Synth = struct
     let _ = add_to_dac ch in
     let _ = ctx_add ch in
     ch
+
+  let n (s, _ch) =
+    s
+
+  let sum_out (n1, ch) (n2, _ch) = 
+    play @@ (n1 +~ n2, ch) 
     
 end
 
